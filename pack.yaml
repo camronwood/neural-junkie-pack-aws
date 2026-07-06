@@ -12,7 +12,7 @@ agents:
   - type: aws
     name: AWSExpert
     implementation: builtin/aws
-    ollama_model: qwen2.5-coder:14b
+    ollama_model: qwen3.5:27b
     compose:
       tool_model: qwen3.5:9b
       consult_triggers:
@@ -25,9 +25,9 @@ agents:
         - cloudformation
         - terraform
 models_to_ensure:
-  - qwen2.5-coder:14b
+  - qwen3.5:27b
   - qwen3.5:9b
-ollama_model: qwen2.5-coder:14b
+ollama_model: qwen3.5:27b
 expert_slug: aws
 expert_label: AWS / Cloud infrastructure
 mcp_agents:
