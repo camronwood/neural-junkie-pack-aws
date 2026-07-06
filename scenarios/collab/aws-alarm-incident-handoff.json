@@ -1,0 +1,49 @@
+{
+  "name": "aws-alarm-incident-handoff",
+  "description": "CloudWatch alarm → AWSExpert traces resource → IncidentManager files Jira.",
+  "tags": ["aws", "incident", "collab"],
+  "channel": "collab-scenarios",
+  "agents": "@AWSExpert @IncidentManager",
+  "required_agents": ["AWSExpert", "IncidentManager"],
+  "required_packs": ["aws", "incident-management"],
+  "workspace": {
+    "fixture": "minimal-repo",
+    "workspace_flag": true,
+    "outline": true,
+    "file_tree": "README.md\nterraform/main.tf\n"
+  },
+  "collaborate": {
+    "flags": ["--workspace", "--rounds", "1", "--messages", "8"],
+    "goal": "CloudWatch alarm fired for prod API latency spike. @AWSExpert trace the alarm to the affected EC2 or Lambda resource and summarize likely root cause using typed AWS tools. @IncidentManager draft a Jira ticket summary with severity P2, resource ARN/ID, and AWSExpert findings for human creation."
+  },
+  "steps": [
+    {
+      "action": "wait_phase",
+      "phase": "planning",
+      "timeout": 60
+    },
+    {
+      "action": "wait_discussion",
+      "min_total": 2,
+      "min_per_agent": 1,
+      "required_agents": ["AWSExpert", "IncidentManager"],
+      "timeout": "180s"
+    },
+    {
+      "action": "assert_plan",
+      "min_tasks": 2,
+      "max_tasks": 6,
+      "tasks_have_assignee": true,
+      "content_any_match": ["jira|ticket|incident", "aws|ec2|lambda|alarm|resource"]
+    },
+    {
+      "action": "approve_plan"
+    },
+    {
+      "action": "wait_phase",
+      "phase": "executing",
+      "timeout": "180s"
+    }
+  ],
+  "cleanup": "clear"
+}

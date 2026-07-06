@@ -1,0 +1,26 @@
+{
+  "name": "aws-ec2-describe-smoke",
+  "description": "AWSExpert DM smoke — typed describe tools in dry-run sidecar mode.",
+  "tags": ["aws", "smoke", "sidecar"],
+  "channel_type": "dm",
+  "dm_user": "ChatScenario",
+  "target_agent": "AWSExpert",
+  "required_agents": ["AWSExpert"],
+  "required_packs": ["aws"],
+  "steps": [
+    {
+      "action": "send",
+      "content": "Who am I in AWS? Use aws_get_caller_identity or describe_ec2_instances with page_size 5.",
+      "metadata": { "conversation_mode": "chat", "context_scope": "none" }
+    },
+    { "action": "wait_reply", "from": "AWSExpert", "timeout": "120s" },
+    {
+      "action": "assert_messages",
+      "last_reply_only": true,
+      "from": "AWSExpert",
+      "min_chars": 20,
+      "max_chars": 4000
+    }
+  ],
+  "cleanup": "clear"
+}
