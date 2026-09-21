@@ -1,7 +1,7 @@
 id: aws
-version: "2.0.0"
+version: "2.1.0"
 title: AWS
-description: AWSExpert — account-aware SRE copilot with typed boto3 tools, IaC drift, cost/security lenses, and gated writes.
+description: AWSExpert — account-aware SRE copilot with typed boto3 tools, IaC drift, cost/security lenses, and gated writes (pack-owned MCP).
 layout_profile: team
 capabilities:
   - aws-api
@@ -16,10 +16,12 @@ capability_defs:
     exposure: sensitive
     mcp_agents:
       - aws
+    mcp_tools_path: assets/mcp/tools.json
   aws-sidecar:
     kind: hub-sidecar
     routes:
       - /api/aws
+      - /mcp
     sidecar:
       module: assets/hub/server.py
     settings:

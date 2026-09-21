@@ -38,6 +38,11 @@ class PackHubHandler(BaseHTTPRequestHandler):
         if path == "/health":
             self._json(200, {"ok": True, "pack_id": self.pack_id})
             return
+        if path == "/mcp/tools":
+            from routes import mcp_tools
+
+            mcp_tools.handle_tools_get(self, self.pack_dir)
+            return
         if path.startswith("/api/aws/"):
             self._handle_aws_get(path)
             return
@@ -51,6 +56,11 @@ class PackHubHandler(BaseHTTPRequestHandler):
             body = json.loads(raw.decode("utf-8")) if raw else {}
         except json.JSONDecodeError:
             self._json(400, {"error": "invalid json"})
+            return
+        if path == "/mcp/call":
+            from routes import mcp_tools
+
+            mcp_tools.handle_call(self, body, self.settings, self.pack_dir)
             return
         if path.startswith("/api/aws/"):
             self._handle_aws_post(path, body)

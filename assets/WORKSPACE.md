@@ -15,7 +15,7 @@ Configure SSO profiles in **Settings → Integrations** before consulting AWSExp
 ./scripts/setup-aws-sidecar.sh
 ```
 
-The hub starts the boto3 sidecar when the AWS pack is enabled. Typed tools call `/api/aws/*` routes instead of free-form CLI passthrough.
+The hub starts the boto3 sidecar when the AWS pack is enabled. Typed tools are declared in `assets/mcp/tools.json` and executed via `POST /mcp/call` (which dispatches to `/api/aws/*` handlers).
 
 ## Read-only default
 

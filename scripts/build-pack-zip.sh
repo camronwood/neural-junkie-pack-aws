@@ -8,5 +8,5 @@ ver="$(grep '^version:' "${ROOT}/pack.yaml" | head -1 | awk -F'"' '{print $2}')"
 artifact="${OUT}/${id}-${ver}.zip"
 rm -f "${artifact}"
 (cd "${ROOT}" && zip -r "${artifact}" pack.yaml -x '*.DS_Store')
-[[ -d "${ROOT}/assets" ]] && (cd "${ROOT}" && zip -ur "${artifact}" assets -x '*.DS_Store')
+[[ -d "${ROOT}/assets" ]] && (cd "${ROOT}" && zip -ur "${artifact}" assets -x '*.DS_Store' -x '*__pycache__*' -x '*.pyc')
 echo "Wrote ${artifact}"
